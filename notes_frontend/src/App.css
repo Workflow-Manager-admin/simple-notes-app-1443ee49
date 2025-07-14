@@ -1,13 +1,16 @@
 /* CSS Variables for Theme Management */
 :root {
-  /* Light theme colors */
+  /* Light theme colors (from palette in task) */
+  --primary: #1976d2;
+  --secondary: #424242;
+  --accent: #ffb300;
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
   --text-primary: #282c34;
-  --text-secondary: #61dafb;
+  --text-secondary: #555;
   --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --button-bg: var(--primary);
+  --button-text: #fff;
 }
 
 [data-theme="dark"] {
@@ -84,21 +87,287 @@
   transform: translateY(0);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* --- Minimalistic Notes App Additions --- */
+
+.App {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.main-layout {
+  display: flex;
+  height: calc(100vh - 56px); /* below header */
+  width: 100vw;
+}
+
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--primary);
+  color: #fff;
+  padding: 0 2rem;
+  height: 56px;
+  box-shadow: 0 2px 4px rgba(25,118,210,0.07);
+  z-index: 15;
+  position: relative;
+}
+
+.header-bar .logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+}
+
+.header-bar .search-input {
+  flex: 1;
+  margin: 0 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.5em 1em;
+  font-size: 1rem;
+  background: #fff;
+  min-width: 170px;
+}
+
+.header-bar .add-btn {
+  background: var(--accent);
+  color: #232323;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 1px 3px rgba(255,179,0,0.11);
+  transition: background 0.2s;
+}
+.header-bar .add-btn:hover {
+  background: #ffd469;
+}
+
+.sidebar {
+  width: 230px;
+  min-width: 160px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  padding: 0.6rem 0.3rem 1rem 1.1rem;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.sidebar-title {
+  color: var(--primary);
+  font-weight: bold;
+  margin-bottom: 7px;
+  font-size: 1.13rem;
+  margin-top: 11px;
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  padding: 10px 7px 10px 5px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 2px;
+  transition: background 0.13s;
+}
+.sidebar-item.active,
+.sidebar-item:hover {
+  background: var(--accent);
+  color: #232323;
+}
+
+.sidebar-note-title {
+  font-weight: 500;
+  font-size: 1.1em;
+}
+.sidebar-note-date {
+  font-size: 12px;
+  color: var(--secondary);
+}
+
+.sidebar-empty {
+  color: var(--secondary);
+  padding: 18px 0 0 0;
+  font-size: 0.99em;
+}
+
+/* main content (notes list/notes details layout) */
+.main-content {
+  padding: 1.2rem 2.5vw;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto;
+  background: var(--bg-primary);
+}
+
+.note-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.note-list-item {
+  padding: 0.8rem 1rem;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  background: #fafbfc;
+  transition: border 0.2s, background 0.13s;
+}
+.note-list-item.selected,
+.note-list-item:hover {
+  border: 1.5px solid var(--accent);
+  background: #ffefe1;
+}
+.note-title {
+  font-size: 1.14em;
+  font-weight: 500;
+  color: var(--primary);
+  margin-bottom: 5px;
+}
+.note-snippet {
+  font-size: 1em;
+  color: var(--secondary);
+  margin-bottom: 3px;
+}
+.note-meta {
+  color: #888;
+  font-size: 0.85em;
+}
+
+.note-list-empty {
+  color: var(--secondary);
+  padding: 1.5em 0 0 0.5em;
+}
+
+/* Note detail/dialog styles */
+.note-detail {
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  margin: 0.8rem 0 0 0.7rem;
+  padding: 1.25em 1.5em 1.2em 1.25em;
+  max-width: 480px;
+  min-width: 220px;
+  flex-shrink: 0;
+}
+.note-detail-title {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: var(--accent);
+  width: 98%;
+  margin-bottom: 8px;
+  border: none;
+  background: none;
+  outline: none;
+  padding: 3px 4px;
+}
+.note-detail-content {
+  font-size: 0.99em;
+  color: var(--secondary);
+  border: none;
+  background: none;
+  width: 98%;
+  min-height: 148px;
+  resize: vertical;
+  margin-bottom: 12px;
+}
+
+.note-detail-meta {
+  color: #aaa;
+  font-size: 0.87em;
+}
+
+.note-detail-actions {
+  display: flex;
+  gap: 0.7em;
+  margin-top: 8px;
+}
+.save-btn,
+.edit-btn,
+.delete-btn,
+.cancel-btn {
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.save-btn { background: var(--primary); color: #fff; }
+.edit-btn { background: var(--primary); color: #fff; }
+.delete-btn { background: var(--secondary); color: #fff; }
+.cancel-btn { background: #eee; color: #232323; }
+
+.save-btn:hover, .edit-btn:hover { background: #12559e; }
+.delete-btn:hover { background: #212121; }
+.cancel-btn:hover { background: #ccc; }
+
+.note-detail-empty {
+  text-align: center;
+  color: var(--secondary);
+  padding-top: 60px;
+  font-size: 1.09em;
+}
+
+@media (max-width: 900px) {
+  .main-layout {
+    flex-direction: column;
+    height: auto;
   }
-  to {
-    transform: rotate(360deg);
+  .sidebar {
+    width: 100%;
+    min-width: unset;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    overflow-x: auto;
+    height: auto;
+    padding-left: 0.5rem;
+  }
+  .main-content {
+    flex-direction: column;
+    padding: 1.5em 0.4em;
+  }
+  .note-detail {
+    margin-left: 0;
+    margin-top: 1.25em;
+    max-width: 97vw;
+    padding: 1em 1.1em 1em 1em;
   }
 }
 
-/* Responsive design for mobile */
 @media (max-width: 768px) {
+  .header-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 0.7em 0.6em 0.32em 1.2em;
+  }
   .theme-toggle {
-    top: 10px;
+    top: 9px;
     right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+  .sidebar-note-date,
+  .note-meta {
+    display: none;
   }
 }
+
